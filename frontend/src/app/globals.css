@@ -1,0 +1,398 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   TRIMQ - Global Styles
+   "Skip the Wait. Own Your Style."
+   ======================================== */
+
+@layer base {
+  :root {
+    /* Light Theme */
+    --background: 0 0% 100%;
+    --foreground: 224 71% 4%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 4%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71% 4%;
+    
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 174 84% 40%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 0%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262 83% 58%;
+    
+    --radius: 0.75rem;
+
+    /* Chart Colors */
+    --chart-1: 262 83% 58%;
+    --chart-2: 174 84% 40%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 200 95% 60%;
+  }
+
+  .dark {
+    /* Dark Theme - Premium Gradient */
+    --background: 222 47% 11%;
+    --foreground: 213 31% 91%;
+    
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+    
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
+    
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 174 84% 40%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 223 47% 11%;
+    --muted-foreground: 218 11% 65%;
+    
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 0%;
+    
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 262 83% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/50 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/70;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-glass;
+  }
+
+  .glass-card-dark {
+    @apply bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl shadow-glass;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+  }
+
+  .gradient-text-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-600;
+  }
+
+  /* Gradient Border */
+  .gradient-border {
+    @apply relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    @apply absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-r from-primary via-secondary to-accent -z-10;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  /* Gradient Background */
+  .gradient-bg {
+    @apply bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/20;
+  }
+
+  .gradient-bg-dark {
+    @apply bg-gradient-to-br from-gray-900 via-primary-950 to-gray-900;
+  }
+
+  /* Animated Gradient */
+  .animated-gradient {
+    background: linear-gradient(-45deg, #7c3aed, #14b8a6, #f59e0b, #7c3aed);
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Glow Effect */
+  .glow {
+    @apply relative;
+  }
+
+  .glow::after {
+    content: '';
+    @apply absolute inset-0 blur-xl opacity-50 -z-10;
+    background: inherit;
+  }
+
+  /* Hover Card Effect */
+  .hover-card {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .hover-card:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary-600 
+           transition-all duration-300 ease-out
+           shadow-md hover:shadow-lg hover:shadow-primary/30
+           active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary-600 
+           transition-all duration-300 ease-out
+           shadow-md hover:shadow-lg hover:shadow-secondary/30
+           active:scale-95;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground
+           transition-all duration-300 ease-out
+           active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply text-foreground hover:bg-muted
+           transition-all duration-300 ease-out
+           active:scale-95;
+  }
+
+  /* Input Styles */
+  .input-primary {
+    @apply w-full px-4 py-3 rounded-xl border border-border 
+           bg-background text-foreground
+           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
+           transition-all duration-300;
+  }
+
+  .input-glass {
+    @apply w-full px-4 py-3 rounded-xl 
+           bg-white/10 backdrop-blur-sm border border-white/20
+           text-foreground placeholder:text-muted-foreground
+           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50
+           transition-all duration-300;
+  }
+
+  /* Section Container */
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Page Container */
+  .page-container {
+    @apply min-h-screen w-full;
+  }
+
+  /* Card Grid - Bento Style */
+  .bento-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4;
+  }
+
+  .bento-item {
+    @apply rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02];
+  }
+
+  .bento-item-large {
+    @apply md:col-span-2 lg:col-span-2;
+  }
+
+  .bento-item-tall {
+    @apply md:row-span-2;
+  }
+
+  /* Skeleton Loading */
+  .skeleton {
+    @apply animate-pulse bg-muted rounded;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .badge-secondary {
+    @apply bg-secondary/10 text-secondary;
+  }
+
+  .badge-accent {
+    @apply bg-accent/10 text-accent;
+  }
+
+  .badge-success {
+    @apply bg-green-500/10 text-green-500;
+  }
+
+  .badge-warning {
+    @apply bg-yellow-500/10 text-yellow-500;
+  }
+
+  .badge-error {
+    @apply bg-red-500/10 text-red-500;
+  }
+
+  /* Status Dot */
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .status-dot-active {
+    @apply bg-green-500 animate-pulse;
+  }
+
+  .status-dot-inactive {
+    @apply bg-gray-400;
+  }
+
+  .status-dot-pending {
+    @apply bg-yellow-500 animate-pulse;
+  }
+
+  /* Time Slot Card */
+  .slot-card {
+    @apply px-4 py-3 rounded-xl border cursor-pointer
+           transition-all duration-200 ease-out;
+  }
+
+  .slot-card-available {
+    @apply border-border hover:border-primary hover:bg-primary/5;
+  }
+
+  .slot-card-selected {
+    @apply border-primary bg-primary/10 ring-2 ring-primary/30;
+  }
+
+  .slot-card-unavailable {
+    @apply border-border bg-muted text-muted-foreground cursor-not-allowed opacity-50;
+  }
+
+  /* QR Code Container */
+  .qr-container {
+    @apply bg-white p-4 rounded-2xl shadow-lg inline-block;
+  }
+
+  /* Pass Card */
+  .pass-card {
+    @apply relative overflow-hidden rounded-3xl;
+    background: linear-gradient(135deg, #7c3aed 0%, #14b8a6 100%);
+  }
+
+  .pass-card::before {
+    content: '';
+    @apply absolute inset-0 opacity-10;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  /* Text Gradient Animation */
+  .text-gradient-animate {
+    background-size: 200% auto;
+    animation: text-gradient 3s linear infinite;
+  }
+
+  @keyframes text-gradient {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  /* Hide scrollbar but allow scroll */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Aspect ratios */
+  .aspect-card {
+    aspect-ratio: 16 / 10;
+  }
+
+  .aspect-pass {
+    aspect-ratio: 1.6 / 1;
+  }
+
+  /* Safe area padding for mobile */
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Backdrop blur fallback */
+  @supports not (backdrop-filter: blur(10px)) {
+    .backdrop-blur-fallback {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+}
+

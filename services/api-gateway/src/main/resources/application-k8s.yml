@@ -1,0 +1,24 @@
+# Kubernetes-specific configuration
+spring:
+  data:
+    redis:
+      host: redis.trimq-data.svc.cluster.local
+      port: 6379
+
+# Service URLs in Kubernetes
+user-service-url: http://user-service.trimq-app.svc.cluster.local:8081
+shop-service-url: http://shop-service.trimq-app.svc.cluster.local:8082
+booking-service-url: http://booking-service.trimq-app.svc.cluster.local:8083
+payment-service-url: http://payment-service.trimq-app.svc.cluster.local:8084
+
+# Loki URL
+loki:
+  url: http://loki.trimq-monitoring.svc.cluster.local:3100
+
+# Production logging
+logging:
+  level:
+    root: INFO
+    com.trimq.gateway: INFO
+    org.springframework.cloud.gateway: WARN
+

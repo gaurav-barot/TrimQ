@@ -1,0 +1,118 @@
+---
+# Kafka PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-pvc
+  namespace: trimq-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+# Kafka Deployment (KRaft mode - no Zookeeper)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka
+  namespace: trimq-data
+  labels:
+    app: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: bitnami/kafka:3.7
+          ports:
+            - containerPort: 9092
+              name: client
+            - containerPort: 9093
+              name: controller
+          env:
+            # KRaft Mode Configuration
+            - name: KAFKA_CFG_NODE_ID
+              value: "1"
+            - name: KAFKA_CFG_PROCESS_ROLES
+              value: broker,controller
+            - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
+              value: 1@localhost:9093
+            - name: KAFKA_CFG_LISTENERS
+              value: PLAINTEXT://:9092,CONTROLLER://:9093
+            - name: KAFKA_CFG_ADVERTISED_LISTENERS
+              value: PLAINTEXT://kafka.trimq-data:9092
+            - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+              value: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+            - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
+              value: CONTROLLER
+            - name: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
+              value: PLAINTEXT
+            # Performance settings
+            - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
+              value: "true"
+            - name: KAFKA_CFG_NUM_PARTITIONS
+              value: "3"
+            - name: KAFKA_CFG_DEFAULT_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR
+              value: "1"
+            # Allow plaintext
+            - name: ALLOW_PLAINTEXT_LISTENER
+              value: "yes"
+          volumeMounts:
+            - name: kafka-data
+              mountPath: /bitnami/kafka
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            tcpSocket:
+              port: 9092
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 9092
+            initialDelaySeconds: 30
+            periodSeconds: 5
+      volumes:
+        - name: kafka-data
+          persistentVolumeClaim:
+            claimName: kafka-pvc
+
+---
+# Kafka Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  namespace: trimq-data
+  labels:
+    app: kafka
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9092
+      targetPort: 9092
+      name: client
+  selector:
+    app: kafka
+

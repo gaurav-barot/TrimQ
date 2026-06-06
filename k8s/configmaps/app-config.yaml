@@ -1,0 +1,90 @@
+---
+# API Gateway ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-config
+  namespace: trimq-app
+data:
+  SPRING_PROFILES_ACTIVE: k8s
+  SERVER_PORT: "8080"
+  REDIS_HOST: redis.trimq-data
+  REDIS_PORT: "6379"
+  USER_SERVICE_URL: http://user-service:8081
+  SHOP_SERVICE_URL: http://shop-service:8082
+  BOOKING_SERVICE_URL: http://booking-service:8083
+  PAYMENT_SERVICE_URL: http://payment-service:8084
+
+---
+# User Service ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service-config
+  namespace: trimq-app
+data:
+  SPRING_PROFILES_ACTIVE: k8s
+  SERVER_PORT: "8081"
+  POSTGRES_HOST: postgresql.trimq-data
+  POSTGRES_PORT: "5432"
+  REDIS_HOST: redis.trimq-data
+  REDIS_PORT: "6379"
+
+---
+# Shop Service ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shop-service-config
+  namespace: trimq-app
+data:
+  SPRING_PROFILES_ACTIVE: k8s
+  SERVER_PORT: "8082"
+  POSTGRES_HOST: postgresql.trimq-data
+  POSTGRES_PORT: "5432"
+
+---
+# Booking Service ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: booking-service-config
+  namespace: trimq-app
+data:
+  SPRING_PROFILES_ACTIVE: k8s
+  SERVER_PORT: "8083"
+  POSTGRES_HOST: postgresql.trimq-data
+  POSTGRES_PORT: "5432"
+  REDIS_HOST: redis.trimq-data
+  REDIS_PORT: "6379"
+  KAFKA_BOOTSTRAP_SERVERS: kafka.trimq-data:9092
+
+---
+# Payment Service ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-service-config
+  namespace: trimq-app
+data:
+  SPRING_PROFILES_ACTIVE: k8s
+  SERVER_PORT: "8084"
+  POSTGRES_HOST: postgresql.trimq-data
+  POSTGRES_PORT: "5432"
+  KAFKA_BOOTSTRAP_SERVERS: kafka.trimq-data:9092
+  BOOKING_SERVICE_URL: http://booking-service:8083
+
+---
+# Notification Service ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-service-config
+  namespace: trimq-app
+data:
+  SPRING_PROFILES_ACTIVE: k8s
+  SERVER_PORT: "8085"
+  POSTGRES_HOST: postgresql.trimq-data
+  POSTGRES_PORT: "5432"
+  KAFKA_BOOTSTRAP_SERVERS: kafka.trimq-data:9092
+

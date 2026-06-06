@@ -1,0 +1,72 @@
+---
+# Shop Service Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-service
+  namespace: trimq-app
+  labels:
+    app: shop-service
+    version: "1.0.0"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shop-service
+  template:
+    metadata:
+      labels:
+        app: shop-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8082"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: shop-service
+          image: ghcr.io/trimq/shop-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+          envFrom:
+            - configMapRef:
+                name: shop-service-config
+            - secretRef:
+                name: app-secrets
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8082
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 5
+
+---
+# Shop Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-service
+  namespace: trimq-app
+  labels:
+    app: shop-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8082
+      targetPort: 8082
+  selector:
+    app: shop-service
+

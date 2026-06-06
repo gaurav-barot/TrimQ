@@ -1,0 +1,30 @@
+---
+# TrimQ Application Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: trimq-app
+  labels:
+    app.kubernetes.io/name: trimq
+    app.kubernetes.io/component: application
+
+---
+# TrimQ Data Services Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: trimq-data
+  labels:
+    app.kubernetes.io/name: trimq
+    app.kubernetes.io/component: data
+
+---
+# TrimQ Monitoring Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: trimq-monitoring
+  labels:
+    app.kubernetes.io/name: trimq
+    app.kubernetes.io/component: monitoring
+

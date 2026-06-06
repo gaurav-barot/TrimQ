@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgresql.trimq-data:5432/trimq
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  
+  data:
+    redis:
+      host: redis.trimq-data
+      port: 6379
+  
+  kafka:
+    bootstrap-servers: kafka.trimq-data:9092
+
+# Kubernetes-specific logging
+logging:
+  level:
+    root: INFO
+    com.trimq.booking: INFO
+

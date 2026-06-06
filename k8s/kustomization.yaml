@@ -1,0 +1,40 @@
+# Kustomization for TrimQ Platform
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Common labels for all resources
+commonLabels:
+  app.kubernetes.io/name: trimq
+  app.kubernetes.io/managed-by: kustomize
+
+# Resources to include
+resources:
+  # Namespaces
+  - namespace.yaml
+  
+  # Secrets
+  - secrets/secrets.yaml
+  
+  # ConfigMaps
+  - configmaps/app-config.yaml
+  
+  # Data layer
+  - data/postgresql.yaml
+  - data/redis.yaml
+  - data/kafka.yaml
+  
+  # Application deployments
+  - deployments/api-gateway.yaml
+  - deployments/user-service.yaml
+  - deployments/shop-service.yaml
+  - deployments/booking-service.yaml
+  - deployments/payment-service.yaml
+  - deployments/notification-service.yaml
+  - deployments/nginx.yaml
+  - deployments/frontend.yaml
+  
+  # Monitoring
+  - monitoring/prometheus.yaml
+  - monitoring/grafana.yaml
+  - monitoring/loki.yaml
+

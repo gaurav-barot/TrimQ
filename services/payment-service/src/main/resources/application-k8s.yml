@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgresql.trimq-data:5432/trimq
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  
+  kafka:
+    bootstrap-servers: kafka.trimq-data:9092
+
+# Booking service in Kubernetes
+booking-service:
+  url: http://booking-service.trimq-app:8083
+
+# Razorpay credentials from secrets
+razorpay:
+  key-id: ${RAZORPAY_KEY_ID}
+  key-secret: ${RAZORPAY_KEY_SECRET}
+  webhook-secret: ${RAZORPAY_WEBHOOK_SECRET}
+
+# Kubernetes-specific logging
+logging:
+  level:
+    root: INFO
+    com.trimq.payment: INFO
+

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Cancelled</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .cancel-badge {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .details-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            color: #6c757d;
+        }
+        .detail-value {
+            font-weight: 600;
+        }
+        .reason-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TrimQ</h1>
+        </div>
+        
+        <div class="content">
+            <div class="cancel-badge">
+                <h2>✕ Booking Cancelled</h2>
+            </div>
+            
+            <p>Hi <strong th:text="${customerName}">Customer</strong>,</p>
+            <p>Your booking has been cancelled. Here are the details:</p>
+            
+            <div class="details-card">
+                <div class="detail-row">
+                    <span class="detail-label">Shop</span>
+                    <span class="detail-value" th:text="${shopName}">Shop Name</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Service</span>
+                    <span class="detail-value" th:text="${serviceName}">Service Name</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date</span>
+                    <span class="detail-value" th:text="${bookingDate}">01 Jan 2025</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Time</span>
+                    <span class="detail-value" th:text="${startTime}">10:00 AM</span>
+                </div>
+            </div>
+            
+            <div class="reason-box" th:if="${cancellationReason}">
+                <strong>Reason:</strong> <span th:text="${cancellationReason}">Cancellation reason</span>
+            </div>
+            
+            <p>If you paid for this booking, a refund will be processed within 5-7 business days.</p>
+            
+            <center>
+                <a href="https://trimq.in/search" class="cta-button">Book Again</a>
+            </center>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 TrimQ. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+

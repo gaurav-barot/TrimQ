@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.trimq</groupId>
+    <artifactId>trimq-platform</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>TrimQ Platform</name>
+    <description>TrimQ - Skip the Wait. Own Your Style. Enterprise Salon Booking Platform</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.5</version>
+        <relativePath/>
+    </parent>
+
+    <modules>
+        <module>common</module>
+        <module>services/api-gateway</module>
+        <module>services/user-service</module>
+        <module>services/shop-service</module>
+        <module>services/booking-service</module>
+        <module>services/payment-service</module>
+        <module>services/notification-service</module>
+    </modules>
+
+    <properties>
+        <!-- Java Version -->
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Spring Cloud -->
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        
+        <!-- Security - JWT -->
+        <jjwt.version>0.12.6</jjwt.version>
+        
+        <!-- Mapping -->
+        <mapstruct.version>1.6.2</mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        
+        <!-- API Documentation -->
+        <springdoc.version>2.6.0</springdoc.version>
+        
+        <!-- QR Code Generation -->
+        <zxing.version>3.5.3</zxing.version>
+        
+        <!-- Razorpay Payment -->
+        <razorpay.version>1.4.6</razorpay.version>
+        
+        <!-- Utilities -->
+        <commons-lang3.version>3.17.0</commons-lang3.version>
+        
+        <!-- Logging - Loki -->
+        <loki-logback.version>1.5.2</loki-logback.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Cloud BOM -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- TrimQ Common Module -->
+            <dependency>
+                <groupId>com.trimq</groupId>
+                <artifactId>trimq-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- JWT Dependencies -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- MapStruct -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <!-- SpringDoc OpenAPI -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+
+            <!-- QR Code - ZXing -->
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+
+            <!-- Razorpay -->
+            <dependency>
+                <groupId>com.razorpay</groupId>
+                <artifactId>razorpay-java</artifactId>
+                <version>${razorpay.version}</version>
+            </dependency>
+
+            <!-- Apache Commons -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <!-- Loki Logging -->
+            <dependency>
+                <groupId>com.github.loki4j</groupId>
+                <artifactId>loki-logback-appender</artifactId>
+                <version>${loki-logback.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Common dependencies for ALL modules -->
+    <dependencies>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Spring Boot Maven Plugin -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                        <!-- Enable layered JARs for Docker optimization -->
+                        <layers>
+                            <enabled>true</enabled>
+                        </layers>
+                    </configuration>
+                </plugin>
+
+                <!-- Maven Compiler Plugin with Lombok + MapStruct -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${lombok-mapstruct-binding.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <compilerArgs>
+                            <arg>-Amapstruct.defaultComponentModel=spring</arg>
+                            <arg>-Amapstruct.unmappedTargetPolicy=IGNORE</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
+

@@ -1,0 +1,31 @@
+# Kubernetes-specific configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://postgresql.trimq-data.svc.cluster.local:5432/trimq
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 10
+  
+  data:
+    redis:
+      host: redis.trimq-data.svc.cluster.local
+      port: 6379
+
+# Production JWT (use from K8s Secret)
+jwt:
+  secret: ${JWT_SECRET}
+
+# Production SMS
+sms:
+  provider: ${SMS_PROVIDER:twilio}
+  api-key: ${SMS_API_KEY}
+
+# Production logging
+logging:
+  level:
+    root: INFO
+    com.trimq.user: INFO
+    org.springframework.security: WARN
+
